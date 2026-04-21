@@ -1,0 +1,5 @@
+/.github
+/.idea
+/api/vendor
+/storage
+composer.lock
