@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed — ReceitasWeb</title>
+    <link rel="stylesheet" href="../assets/_common/styles/main.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="main-nav">
+            <a class="brand" href="../public/index.html">ReceitasWeb</a>
+            <ul>
+                <li><a href="#">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="recipes">
+        <section class="hero">
+            <section class="hero-content">
+                <span class="eyebrow">Conecte-se com a cozinha</span>
+                <h1>Feed social de receitas</h1>
+                <p>Veja as últimas receitas publicadas por outros usuários, curta e comente.</p>
+            </section>
+        </section>
+
+        <section class="page-card">
+            <div class="publication-header">
+                <h2>Nova publicação</h2>
+                <button id="new-publication-toggle" type="button" class="btn btn-add">+</button>
+            </div>
+            <form id="publication-form" class="form-card hidden">
+                <label>
+                    Título
+                    <input type="text" name="title" placeholder="Título da publicação" required>
+                </label>
+                <label>
+                    Descrição
+                    <textarea name="content" placeholder="Conteúdo da publicação" rows="4" required></textarea>
+                </label>
+                <button type="submit" class="btn">Publicar</button>
+            </form>
+        </section>
+
+        <section class="feed-list" id="feed-list"></section>
+    </main>
+    <footer>
+        <p>ReceitasWeb — Um feed social em tons quentes.</p>
+    </footer>
+    <script src="../assets/_common/scripts/main.js?v=3"></script>
+</body>
+</html>

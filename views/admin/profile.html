@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Perfil — ReceitasWeb</title>
+    <link rel="stylesheet" href="../assets/_common/styles/main.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="main-nav">
+            <a class="brand" href="../public/index.html">ReceitasWeb</a>
+            <ul>
+                <li><a href="dashboard.html">Painel</a></li>
+                <li><a href="profile.html">Perfil</a></li>
+                <li><a href="users.html">Administradores</a></li>
+                <li><a href="services.html">Serviços</a></li>
+                <li><a href="faqs.html">Editar FAQ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="recipes">
+        <article class="page-card">
+            <h1>Perfil de Administrador</h1>
+            <p>Altere seus dados de administrador, e-mail, senha e informações de contato.</p>
+            <form class="form-card">
+                <label>
+                    Nome
+                    <input type="text" value="Administrador" required>
+                </label>
+                <label>
+                    Email
+                    <input type="email" value="admin@receitasweb.com.br" required>
+                </label>
+                <label>
+                    Senha
+                    <input type="password" placeholder="Nova senha">
+                </label>
+                <label>
+                    Telefone
+                    <input type="text" value="(31) 91234-5678">
+                </label>
+                <button type="submit" class="btn">Salvar alterações</button>
+            </form>
+        </article>
+    </main>
+
+    <footer>
+        <p>ReceitasWeb — Perfil do administrador.</p>
+    </footer>
+    <script src="../assets/_common/scripts/main.js?v=3"></script>
+</body>
+</html>

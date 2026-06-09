@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — ReceitasWeb</title>
+    <link rel="stylesheet" href="../assets/_common/styles/main.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="main-nav">
+            <a class="brand" href="../public/index.html">ReceitasWeb</a>
+            <ul>
+                <li><a href="dashboard.html">Painel</a></li>
+                <li><a href="profile.html">Perfil</a></li>
+                <li><a href="users.html">Administradores</a></li>
+                <li><a href="services.html">Serviços</a></li>
+                <li><a href="faqs.html">Editar FAQ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="recipes">
+        <article class="page-card">
+            <h1>Área Administrativa</h1>
+            <p>Visão geral do sistema, desempenho e principais métricas do serviço.</p>
+            <!-- 'Pedidos ativos' card removed as requested -->
+            <section class="page-card">
+                <h2>Mensagens enviadas pelos usuários</h2>
+                <div id="message-list"></div>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>ReceitasWeb — Dashboard administrativo.</p>
+    </footer>
+    <script src="../assets/_common/scripts/main.js?v=3"></script>
+</body>
+</html>

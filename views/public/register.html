@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro — ReceitasWeb</title>
+    <link rel="stylesheet" href="../assets/_common/styles/main.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="main-nav">
+            <a class="brand" href="index.html">ReceitasWeb</a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">Sobre</a></li>
+                <li><a href="contact.html">Contato</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="recipes">
+        <section class="login-card">
+            <h1>Cadastro de usuário</h1>
+            <p>Crie sua conta para acessar a área restrita e começar a interagir na comunidade.</p>
+            <form id="register-form">
+                <label>
+                    Nome
+                    <input type="text" name="name" placeholder="Seu nome completo" required>
+                </label>
+                <label>
+                    Email
+                    <input type="email" name="email" placeholder="seu@email.com" required>
+                </label>
+                <label>
+                    Senha
+                    <input type="password" name="password" placeholder="Senha segura" required>
+                </label>
+                <label>
+                    URL da foto de perfil (opcional)
+                    <input type="text" name="avatar" placeholder="https://...">
+                </label>
+                <label>
+                    Bio (opcional)
+                    <textarea name="bio" rows="3" placeholder="Fale um pouco sobre você..."></textarea>
+                </label>
+                
+                <label class="toggle-label">
+                    <input type="checkbox" id="admin-toggle" name="is_admin">
+                    <span class="toggle-switch"></span>
+                    Ser administrador
+                </label>
+
+                <div id="admin-password-field" style="display: none;">
+                    <label>
+                        Senha de administrador
+                        <input type="password" id="admin-password" name="admin_password" placeholder="Digite a senha de administrador">
+                    </label>
+                </div>
+
+                <button type="submit" class="btn">Cadastrar</button>
+            </form>
+            <p>Já tem conta? <a href="login.html">Faça login</a>.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>ReceitasWeb — Cadastre-se para acessar a área de aplicação.</p>
+    </footer>
+    <script src="../assets/_common/scripts/main.js?v=3"></script>
+    <script>
+        const adminToggle = document.getElementById('admin-toggle');
+        const adminPasswordField = document.getElementById('admin-password-field');
+        const adminPasswordInput = document.getElementById('admin-password');
+
+        adminToggle.addEventListener('change', function() {
+            if (this.checked) {
+                adminPasswordField.style.display = 'block';
+                adminPasswordInput.required = true;
+            } else {
+                adminPasswordField.style.display = 'none';
+                adminPasswordInput.required = false;
+                adminPasswordInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>

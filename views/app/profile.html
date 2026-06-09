@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil — ReceitasWeb</title>
+    <link rel="stylesheet" href="../assets/_common/styles/main.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="main-nav">
+            <a class="brand" href="../public/index.html">ReceitasWeb</a>
+            <ul>
+                <li><a href="#">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="recipes">
+        <article class="page-card">
+            <h1>Meu Perfil</h1>
+            <div id="profile-info"></div>
+            <div style="margin-top:1rem; display:flex; gap:0.75rem;">
+                <button id="edit-profile-btn" class="btn">Alterar perfil</button>
+                <button id="logout-btn" class="btn">Sair</button>
+            </div>
+        </article>
+
+        <section class="profile-grid">
+            <article class="page-card">
+                <h2>Minhas publicações</h2>
+                <section id="my-posts" class="feed-list"></section>
+            </article>
+            <article class="page-card">
+                <h2>Publicações curtidas</h2>
+                <section id="liked-posts" class="feed-list"></section>
+            </article>
+        </section>
+    </main>
+
+    <form id="edit-profile-form" class="page-card hidden" style="max-width:720px; margin: 1.5rem auto;">
+        <h2>Editar perfil</h2>
+        <label>
+            Nome
+            <input type="text" name="name" placeholder="Seu nome">
+        </label>
+        <label>
+            Senha (deixe em branco para manter)
+            <input type="password" name="password" placeholder="Nova senha">
+        </label>
+        <label>
+            URL da foto de perfil
+            <input type="text" name="avatar" placeholder="https://...">
+        </label>
+        <label>
+            Bio
+            <textarea name="bio" rows="3" placeholder="Fale um pouco sobre você..."></textarea>
+        </label>
+        <div style="display:flex; gap:0.75rem; margin-top:0.75rem;">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="button" id="cancel-edit-profile" class="btn">Cancelar</button>
+        </div>
+    </form>
+
+    <footer>
+        <p>ReceitasWeb — Perfil do usuário.</p>
+    </footer>
+    <script src="../assets/_common/scripts/main.js?v=3"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const logoutButton = document.querySelector('#logout-btn');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', logout);
+            }
+        });
+    </script>
+</body>
+</html>

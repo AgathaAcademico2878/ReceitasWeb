@@ -2,7 +2,8 @@
 
 ## Visão Geral
 
-[contexto-geral-da-realidade-resumo-aprovado]
+O sistema proposto consiste em uma plataforma web de compartilhamento de receitas culinárias, onde usuários podem criar perfis, publicar receitas, interagir por meio de curtidas, comentários e envio de vídeos relacionados às preparações. A plataforma centraliza conteúdo gastronômico gerado pelos próprios usuários, incentivando a criatividade e a socialização.
+
 
 O conteúdo será em `Brazilian Portuguese`, o código em `English`.
 

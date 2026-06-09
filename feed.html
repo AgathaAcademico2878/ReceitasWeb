@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed — ReceitasWeb</title>
+    <link rel="stylesheet" href="views/assets/_common/styles/main.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="main-nav">
+            <a class="brand" href="index.html">ReceitasWeb</a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="feed.html">Feed</a></li>
+                <li><a href="profile.html">Perfil</a></li>
+            </ul>
+        </nav>
+        <section class="hero">
+            <section class="hero-content">
+                <span class="eyebrow">Conecte-se com a cozinha</span>
+                <h1>Bora cozinhar?</h1>
+            </section>
+        </section>
+    </header>
+
+    <main class="recipes">
+        <section class="feed-list">
+            <article class="post-card">
+                <header class="post-meta">
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80" alt="Avatar de Maria" class="avatar">
+                        <figcaption>
+                            <strong>Maria Santos</strong>
+                            <span>2 horas atrás · São Paulo</span>
+                        </figcaption>
+                    </figure>
+                </header>
+                <section>
+                    <h2>Minha sopa cremosa de abóbora</h2>
+                    <p>Compartilho a receita da sopa que aquece qualquer noite fria. Muito fácil e perfeita para a família.</p>
+                </section>
+                <section class="post-actions">
+                    <button type="button" data-action="like">Curtir <span class="likes-count">214</span></button>
+                    <button type="button" data-action="comment">Comentar</button>
+                    <span class="comments-count">16 comentários</span>
+                </section>
+                <form class="comment-form">
+                    <input type="text" placeholder="Escreva um comentário...">
+                    <button type="submit" class="btn">Enviar</button>
+                </form>
+                <div class="comments"></div>
+            </article>
+
+            <article class="post-card">
+                <header class="post-meta">
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=80&q=80" alt="Avatar de João" class="avatar">
+                        <figcaption>
+                            <strong>João Pedro</strong>
+                            <span>Ontem · Salvador</span>
+                        </figcaption>
+                    </figure>
+                </header>
+                <section>
+                    <h2>Arroz caramelizado com castanhas</h2>
+                    <p>Receita ideal para quem ama o sabor adocicado e crocante. Fica lindo na mesa e rende muito bem.</p>
+                </section>
+                <section class="post-actions">
+                    <button type="button" data-action="like">Curtir <span class="likes-count">178</span></button>
+                    <button type="button" data-action="comment">Comentar</button>
+                    <span class="comments-count">21 comentários</span>
+                </section>
+                <form class="comment-form">
+                    <input type="text" placeholder="Escreva um comentário...">
+                    <button type="submit" class="btn">Enviar</button>
+                </form>
+                <div class="comments"></div>
+            </article>
+
+            <article class="post-card">
+                <header class="post-meta">
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=80&q=80" alt="Avatar de Laura" class="avatar">
+                        <figcaption>
+                            <strong>Laura Ribeiro</strong>
+                            <span>3 dias atrás · Curitiba</span>
+                        </figcaption>
+                    </figure>
+                </header>
+                <section>
+                    <h2>Creme de café com caramelo</h2>
+                    <p>Uma sobremesa suave, com textura aveludada e aroma intenso. Perfeita para finalizar um jantar especial.</p>
+                </section>
+                <section class="post-actions">
+                    <button type="button" data-action="like">Curtir <span class="likes-count">240</span></button>
+                    <button type="button" data-action="comment">Comentar</button>
+                    <span class="comments-count">32 comentários</span>
+                </section>
+                <form class="comment-form">
+                    <input type="text" placeholder="Escreva um comentário...">
+                    <button type="submit" class="btn">Enviar</button>
+                </form>
+                <div class="comments"></div>
+            </article>
+        </section>
+    </main>
+    <footer>
+        <p>ReceitasWeb — Um feed social em tons quentes.</p>
+    </footer>
+    <script src="views/assets/_common/scripts/main.js?v=3"></script>
+</body>
+</html>
