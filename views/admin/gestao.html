@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão — ReceitasWeb</title>
+    <link rel="stylesheet" href="../assets/_common/styles/main.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="main-nav">
+            <a class="brand" href="../public/index.html">ReceitasWeb</a>
+            <ul>
+                <li><a href="dashboard.html">Painel</a></li>
+                <li><a href="profile.html">Perfil</a></li>
+                <li><a href="users.html">Administradores</a></li>
+                <li><a href="services.html">Serviços</a></li>
+                <li><a href="faqs.html">Editar FAQ</a></li>
+                <li><a href="gestao.html">Gestão</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="recipes">
+        <div class="gestao-header">
+            <section class="page-card small-card">
+                <h2>Criar Nova Categoria</h2>
+                <form id="category-form" class="form-card">
+                    <label>
+                        Nome da Categoria
+                        <input type="text" name="name" placeholder="Nome da categoria" required>
+                    </label>
+                    <button type="submit" class="btn">Criar Categoria</button>
+                </form>
+            </section>
+
+            <section class="page-card small-card">
+                <h2>Categorias Existentes</h2>
+                <div class="category-list-container">
+                    <div id="category-list"></div>
+                </div>
+            </section>
+        </div>
+
+        <section class="page-card full-width">
+            <h2>Todas as Publicações por Categoria</h2>
+            <div id="posts-by-category"></div>
+        </section>
+    </main>
+    <footer>
+        <p>ReceitasWeb — Área administrativa.</p>
+    </footer>
+    <script src="../assets/_common/scripts/main.js?v=4"></script>
+</body>
+</html>

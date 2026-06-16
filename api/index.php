@@ -26,8 +26,16 @@ $route = new Router(url("api"),":");
 $route->namespace("Source\Controller");
 // localhost/acme-3am/api/hello
 $route->get("/hello", "Api:hello");
-$route->get("/products/list", "Products:productsList");
-$route->get("/users/list", "Users:usersList");
+
+// Receitas API routes
+$route->get("/receitas", "Receitas:listar");
+$route->get("/receitas/[:id]", "Receitas:buscar");
+$route->post("/receitas", "Receitas:cadastrar");
+$route->put("/receitas/[:id]", "Receitas:atualizar");
+$route->delete("/receitas/[:id]", "Receitas:excluir");
+
+//$route->get("/products/list", "Products:productsList");
+//$route->get("/users/list", "Users:usersList");
 
 $route->dispatch();
 

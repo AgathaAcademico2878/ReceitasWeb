@@ -5,7 +5,8 @@ const STORAGE_KEYS = {
     logged: 'receitasWebLogged',
     messages: 'receitasWebMessages',
     faqs: 'receitasWebFaqs',
-    posts: 'receitasWebPosts'
+    posts: 'receitasWebPosts',
+    categories: 'receitasWebCategories'
 };
 
 const DEFAULT_FAQS = [
@@ -92,6 +93,12 @@ const DEFAULT_AVATAR = 'https://i.pinimg.com/474x/a7/d3/9e/a7d39eb1998731d8c45b9
 function getSafeAvatar(value) {
     const avatar = (value || '').toString().trim();
     return avatar ? avatar : DEFAULT_AVATAR;
+}
+
+function getCategoryNameById(categoryId) {
+    const categories = getCategories();
+    const category = categories.find(cat => cat.id === categoryId);
+    return category ? category.name : 'Categoria não encontrada';
 }
 
 function getStoredUser() {
@@ -206,6 +213,31 @@ function getAllPosts() {
     return getPosts();
 }
 
+function getCategories() {
+    const raw = localStorage.getItem(STORAGE_KEYS.categories);
+    if (!raw) return [];
+    try {
+        const categories = JSON.parse(raw);
+        return Array.isArray(categories) ? categories : [];
+    } catch {
+        return [];
+    }
+}
+
+function saveCategories(categories) {
+    localStorage.setItem(STORAGE_KEYS.categories, JSON.stringify(categories));
+}
+
+function getDefaultCategories() {
+    return [
+        { id: 1, name: 'Sopas', description: 'Sopas e cremes quentes para dias frios', createdBy: 1, createdAt: new Date().toISOString() },
+        { id: 2, name: 'Sobremesas', description: 'Doces e sobremesas para finalizar a refeição', createdBy: 1, createdAt: new Date().toISOString() },
+        { id: 3, name: 'Massas', description: 'Pratos de massa italiana e outras variações', createdBy: 1, createdAt: new Date().toISOString() },
+        { id: 4, name: 'Saladas', description: 'Saladas frescas e saudáveis para qualquer refeição', createdBy: 1, createdAt: new Date().toISOString() },
+        { id: 5, name: 'Bebidas', description: 'Sucos, chás, smoothies e outras bebidas', createdBy: 1, createdAt: new Date().toISOString() }
+    ];
+}
+
 function getUserPostsKey(user) {
     if (!user) return null;
     const id = (user.email || user.name || '').toString().trim().toLowerCase();
@@ -246,7 +278,7 @@ function savePosts(posts) {
     localStorage.setItem(STORAGE_KEYS.posts, JSON.stringify(posts));
 }
 
-function createPost(title, content) {
+function createPost(title, content, categoryId = null) {
     const user = currentUser();
     if (!user) return null;
 
@@ -255,6 +287,7 @@ function createPost(title, content) {
         id: Date.now().toString(),
         title,
         content,
+        category_id: categoryId,
         author: {
             name: user.name,
             email: user.email,
@@ -361,6 +394,7 @@ function buildNav() {
     if (isAdmin()) {
         links.push({ href: resolvePath('admin', 'dashboard.html'), text: 'Mensagens' });
         links.push({ href: resolvePath('admin', 'faqs.html'), text: 'Editar FAQ' });
+        links.push({ href: resolvePath('admin', 'gestao.html'), text: 'Gestão' });
     }
 
     if (isUserLogged()) {
@@ -640,6 +674,7 @@ function renderPostCard(post, currentUserEmail) {
         </header>
         <section>
             <h2>${post.title}</h2>
+            ${post.category_id ? `<p><strong>Categoria:</strong> ${getCategoryNameById(post.category_id)}</p>` : ''}
             <p>${post.content}</p>
         </section>
         <section class="post-actions">
@@ -676,7 +711,7 @@ function setupFeedPage() {
     function renderFeed() {
         const allPosts = getAllPosts();
         const postsToDisplay = allPosts.length === 0 ? DEFAULT_POSTS : allPosts;
-        
+
         feedList.innerHTML = '';
 
         if (postsToDisplay.length === 0) {
@@ -689,12 +724,27 @@ function setupFeedPage() {
         });
     }
 
+    function loadCategories() {
+        const categorySelect = publicationForm.querySelector('select[name="category_id"]');
+        if (!categorySelect) return;
+
+        const categories = getCategories().length > 0 ? getCategories() : getDefaultCategories();
+        categorySelect.innerHTML = '<option value="">Selecione uma categoria</option>';
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.id;
+            option.textContent = category.name;
+            categorySelect.appendChild(option);
+        });
+    }
+
     const toggleButton = document.querySelector('#new-publication-toggle');
     if (toggleButton && publicationForm) {
         toggleButton.addEventListener('click', function () {
             publicationForm.classList.toggle('hidden');
             if (!publicationForm.classList.contains('hidden')) {
                 publicationForm.querySelector('input[name="title"]').focus();
+                loadCategories();
             }
         });
     }
@@ -704,11 +754,19 @@ function setupFeedPage() {
             event.preventDefault();
             const title = publicationForm.querySelector('input[name="title"]').value.trim();
             const content = publicationForm.querySelector('textarea[name="content"]').value.trim();
+            const categoryId = parseInt(publicationForm.querySelector('select[name="category_id"]').value);
+
             if (!title || !content) {
                 alert('Preencha título e descrição para publicar.');
                 return;
             }
-            createPost(title, content);
+
+            if (isNaN(categoryId) || categoryId <= 0) {
+                alert('Selecione uma categoria para a publicação.');
+                return;
+            }
+
+            createPost(title, content, categoryId);
             publicationForm.reset();
             renderFeed();
         });
@@ -1001,6 +1059,215 @@ function setupAdminFaqEditor() {
     }
 }
 
+function setupGestaoPage() {
+    const categoryForm = document.querySelector('#category-form');
+    const categoryList = document.querySelector('#category-list');
+    const postsByCategoryContainer = document.querySelector('#posts-by-category');
+
+    if (!categoryForm || !categoryList || !postsByCategoryContainer) return;
+
+    function renderCategories() {
+        const categories = getCategories().length > 0 ? getCategories() : getDefaultCategories();
+        categoryList.innerHTML = '';
+
+        if (categories.length === 0) {
+            categoryList.innerHTML = '<p>Nenhuma categoria cadastrada.</p>';
+            return;
+        }
+
+        categories.forEach((category, index) => {
+            const categoryItem = document.createElement('div');
+            categoryItem.className = 'category-item';
+            categoryItem.innerHTML = `
+                <div class="category-title">${category.name}</div>
+                <div class="category-actions">
+                    <button type="button" class="btn btn-small btn-danger" data-action="delete" data-index="${index}">
+                        Excluir
+                    </button>
+                </div>
+            `;
+            categoryList.appendChild(categoryItem);
+        });
+    }
+
+    function renderPostsByCategory() {
+        const categories = getCategories().length > 0 ? getCategories() : getDefaultCategories();
+        const allPosts = getAllPosts().length > 0 ? getAllPosts() : DEFAULT_POSTS;
+
+        postsByCategoryContainer.innerHTML = '';
+
+        if (categories.length === 0) {
+            postsByCategoryContainer.innerHTML = '<p>Nenhuma categoria cadastrada.</p>';
+            return;
+        }
+
+        categories.forEach(category => {
+            const categoryPosts = allPosts.filter(post =>
+                post.category_id && parseInt(post.category_id) === category.id
+            );
+
+            const categorySection = document.createElement('div');
+            categorySection.className = 'category-posts-section';
+            categorySection.innerHTML = `
+                <h3>${category.name} (${categoryPosts.length} publicação${categoryPosts.length !== 1 ? 's' : ''})</h3>
+            `;
+
+            if (categoryPosts.length === 0) {
+                categorySection.innerHTML += '<p>Nenhuma publicação nesta categoria.</p>';
+            } else {
+                const postsList = document.createElement('div');
+                postsList.className = 'posts-list';
+
+                categoryPosts.forEach(post => {
+                    const postItem = document.createElement('div');
+                    postItem.className = 'post-item gestao-post-item';
+
+                    // Format date
+                    const date = new Date(post.createdAt);
+                    const formattedDate = date.toLocaleDateString('pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+
+                    postItem.innerHTML = `
+                        <div class="post-content">
+                            <h4>${post.title}</h4>
+                            <p>${post.content.substring(0, 100)}${post.content.length > 100 ? '...' : ''}</p>
+                            <div class="post-meta">
+                                <span>Por: ${getUserNameById(post.authorId)}</span>
+                                <span>${formattedDate}</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button type="button" class="btn btn-small btn-danger" data-action="delete-post" data-post-id="${post.id}">
+                                Excluir Publicação
+                            </button>
+                        </div>
+                    `;
+                    postsList.appendChild(postItem);
+                });
+
+                categorySection.appendChild(postsList);
+            }
+
+            postsByCategoryContainer.appendChild(categorySection);
+        });
+    }
+
+    if (categoryForm) {
+        categoryForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const name = categoryForm.querySelector('input[name="name"]').value.trim();
+            const description = categoryForm.querySelector('textarea[name="description"]').value.trim();
+
+            if (!name) {
+                alert('Preencha o nome da categoria.');
+                return;
+            }
+
+            // Description is optional now
+            addCategory(name, description || '');
+            categoryForm.reset();
+            renderCategories();
+            renderPostsByCategory();
+        });
+    }
+
+    categoryList.addEventListener('click', function (event) {
+        const button = event.target.closest('button[data-action]');
+        if (!button) return;
+
+        const index = button.dataset.index;
+        if (index === undefined) return;
+
+        if (button.dataset.action === 'delete') {
+            if (!confirm('Tem certeza que deseja excluir esta categoria? Publicações nesta categoria serão afetadas.')) return;
+
+            const categories = getCategories();
+            const categoryToDelete = categories[index];
+
+            if (!categoryToDelete) return;
+
+            // Optional: Handle posts in this category (you might want to reassign them or delete them)
+            // For now, we'll just delete the category and let posts reference a non-existent category
+            // In a real app, you might want to handle this differently
+
+            categories.splice(index, 1);
+            saveCategories(categories);
+            renderCategories();
+            renderPostsByCategory();
+            return;
+        }
+    });
+
+    postsByCategoryContainer.addEventListener('click', function (event) {
+        const button = event.target.closest('button[data-action]');
+        if (!button) return;
+
+        if (button.dataset.action === 'delete-post') {
+            const postId = button.dataset.postId;
+            if (!postId) return;
+
+            if (!confirm('Tem certeza que deseja excluir esta publicação?')) return;
+
+            deletePost(postId);
+            renderPostsByCategory();
+            return;
+        }
+    });
+
+    // Initial render
+    renderCategories();
+    renderPostsByCategory();
+}
+
+// Helper functions for gestao page
+function addCategory(name, description) {
+    const categories = getCategories();
+    const newCategory = {
+        id: Date.now(),
+        name: name,
+        description: description,
+        createdBy: currentUser()?.id || 1, // Default to admin if no user
+        createdAt: new Date().toISOString()
+    };
+
+    categories.push(newCategory);
+    saveCategories(categories);
+    return newCategory;
+}
+
+function getUserNameById(userId) {
+    const users = getUsers();
+    const user = users.find(u => u.id === parseInt(userId));
+    return user ? user.name : 'Usuário desconhecido';
+}
+
+function deletePost(postId) {
+    const posts = getPosts();
+    const postIndex = posts.findIndex(post => post.id === postId);
+
+    if (postIndex !== -1) {
+        posts.splice(postIndex, 1);
+        savePosts(posts);
+
+        // Also remove from user's posts
+        const post = posts[postIndex]; // Get the post before it was removed (for author info)
+        if (post) {
+            const userPosts = getUserPostsFromStorage({ id: post.authorId }) || [];
+            const userPostIndex = userPosts.findIndex(p => p.id === postId);
+            if (userPostIndex !== -1) {
+                userPosts.splice(userPostIndex, 1);
+                saveUserPosts({ id: post.authorId }, userPosts);
+            }
+        }
+
+        return true;
+    }
+    return false;
+}
+
 function init() {
     buildNav();
     redirectToLoginIfNeeded();
@@ -1015,6 +1282,7 @@ function init() {
     setupFeedPage();
     setupAdminDashboard();
     setupAdminFaqEditor();
+    setupGestaoPage();
 }
 
 document.addEventListener('DOMContentLoaded', init);

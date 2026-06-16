@@ -12,6 +12,74 @@
     --border: rgba(242, 229, 216, 0.12);
 }
 
+/* Gestão page specific styles */
+.gestao-header {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.small-card {
+    flex: 1;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.category-list-container {
+    flex: 1;
+    min-height: 150px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: var(--surface-soft);
+}
+
+.category-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background-color: var(--surface);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+.category-title {
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+}
+
+.category-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .gestao-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .small-card {
+        min-width: 100%;
+    }
+
+    .category-list-container {
+        max-height: 250px;
+    }
+}
+
 * {
     box-sizing: border-box;
 }
