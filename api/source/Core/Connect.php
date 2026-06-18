@@ -27,11 +27,14 @@ abstract class Connect
                     self::OPTIONS
                 );
             } catch (PDOException $exception) {
-                $resposse = [
+                $response = [
+                    "code" => 500,
                     "type" => "error",
-                    "message" => "Problemas ao conectar com o banco de dados!. " . $exception->getMessage() . "-" . $exception->getCode()
+                    "status" => "internal_server_error",
+                    "message" => "Problemas ao conectar com o banco de dados! " . $exception->getMessage() . " - " . $exception->getCode()
                 ];
-                echo json_encode($resposse);
+                http_response_code(500);
+                echo json_encode($response);
                 exit();
             }
         }

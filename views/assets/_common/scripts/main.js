@@ -1,3 +1,48 @@
+// =====================================================
+// Configuração da API
+// =====================================================
+
+const API_BASE_URL = window.location.origin + '/ReceitasWeb/api';
+
+function getApiToken() {
+    return localStorage.getItem('receitasWebApiToken');
+}
+
+function setApiToken(token) {
+    localStorage.setItem('receitasWebApiToken', token);
+}
+
+function clearApiToken() {
+    localStorage.removeItem('receitasWebApiToken');
+}
+
+async function apiFetch(endpoint, options = {}) {
+    const url = API_BASE_URL + endpoint;
+    const headers = {
+        'Content-Type': 'application/json',
+        ...options.headers
+    };
+
+    const token = getApiToken();
+    if (token) {
+        headers['Authorization'] = 'Bearer ' + token;
+    }
+
+    try {
+        const response = await fetch(url, {
+            ...options,
+            headers
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('API Error:', error);
+        return { code: 500, status: 'error', message: 'Erro de conexão com o servidor.' };
+    }
+}
+
+// =====================================================
+
 const STORAGE_KEYS = {
     user: 'receitasWebUser',
     currentUserId: 'receitasWebCurrentUserId',
@@ -180,6 +225,7 @@ function logout(event) {
     localStorage.removeItem(STORAGE_KEYS.logged);
     localStorage.removeItem(STORAGE_KEYS.user);
     localStorage.removeItem(STORAGE_KEYS.currentUserId);
+    clearApiToken();
     window.location.href = resolvePath('public', 'login.html');
 }
 
@@ -196,6 +242,71 @@ function addMessage(message) {
     const messages = getMessages();
     messages.unshift(message);
     saveMessages(messages);
+}
+
+async function getUserById(userId) {
+    try {
+        const res = await apiFetch(`/users/list/${userId}`);
+        if (res && res.data) return res.data;
+    } catch {}
+    return null;
+}
+
+function transformApiPost(apiPost) {
+    let comments = [];
+    if (apiPost.comments) {
+        try {
+            const parsed = typeof apiPost.comments === 'string' ? JSON.parse(apiPost.comments) : apiPost.comments;
+            comments = Array.isArray(parsed) ? parsed : [];
+        } catch {
+            comments = [];
+        }
+    }
+    let likes = [];
+    if (apiPost.likes) {
+        try {
+            const parsed = typeof apiPost.likes === 'string' ? JSON.parse(apiPost.likes) : apiPost.likes;
+            likes = Array.isArray(parsed) ? parsed : [];
+        } catch {
+            likes = [];
+        }
+    }
+    return {
+        id: String(apiPost.id),
+        title: apiPost.title || '',
+        content: apiPost.description || '',
+        category_id: apiPost.category_id || null,
+        author: { name: apiPost.author_name || 'Usuário', email: apiPost.author_email || '', isAdmin: false },
+        authorId: apiPost.user_id ? String(apiPost.user_id) : '',
+        createdAt: apiPost.created_at || new Date().toISOString(),
+        likes: likes,
+        comments: comments.map(function (c) {
+            return { user: c.user || c.name || 'Usuário', message: c.message || c.text || '', sentAt: c.sentAt || c.sent_at || new Date().toISOString() };
+        })
+    };
+}
+
+async function syncPosts() {
+    try {
+        const res = await apiFetch('/publicacoes/list');
+        if (res && res.data && Array.isArray(res.data)) {
+            const posts = res.data.map(transformApiPost);
+            savePosts(posts);
+            return posts;
+        }
+    } catch {}
+    return getPosts();
+}
+
+async function syncCategories() {
+    try {
+        const res = await apiFetch('/categorias/list');
+        if (res && res.data && Array.isArray(res.data)) {
+            saveCategories(res.data);
+            return res.data;
+        }
+    } catch {}
+    return getCategories();
 }
 
 function getPosts() {
@@ -278,9 +389,18 @@ function savePosts(posts) {
     localStorage.setItem(STORAGE_KEYS.posts, JSON.stringify(posts));
 }
 
-function createPost(title, content, categoryId = null) {
+async function createPost(title, content, categoryId = null) {
     const user = currentUser();
     if (!user) return null;
+
+    const payload = { title: title, description: content, category_id: categoryId || 1 };
+
+    try {
+        const res = await apiFetch('/publicacoes', { method: 'POST', body: JSON.stringify(payload) });
+        if (res && res.status === 'success') {
+            await syncPosts();
+        }
+    } catch {}
 
     const posts = getPosts();
     const post = {
@@ -307,7 +427,7 @@ function createPost(title, content, categoryId = null) {
     return post;
 }
 
-function likePost(postId) {
+async function likePost(postId) {
     const user = currentUser();
     if (!user) return null;
 
@@ -323,10 +443,15 @@ function likePost(postId) {
     }
 
     savePosts(posts);
+
+    try {
+        await apiFetch('/publicacoes/' + postId, { method: 'PUT', body: JSON.stringify({ likes: post.likes }) });
+    } catch {}
+
     return post;
 }
 
-function addCommentToPost(postId, commentText) {
+async function addCommentToPost(postId, commentText) {
     const user = currentUser();
     if (!user) return null;
 
@@ -341,24 +466,99 @@ function addCommentToPost(postId, commentText) {
     });
 
     savePosts(posts);
+
+    try {
+        await apiFetch('/publicacoes/' + postId, { method: 'PUT', body: JSON.stringify({ comments: post.comments }) });
+    } catch {}
+
     return post;
 }
 
-function getFaqs() {
+let _faqsCache = null;
+
+async function getFaqs() {
+    // Tenta buscar da API
+    try {
+        const result = await apiFetch('/faqs/list');
+        if (result.code === 200 && Array.isArray(result.data)) {
+            _faqsCache = result.data.map(item => ({
+                id: item.id,
+                question: item.question,
+                answer: item.answer,
+                faqs_category_id: item.faqs_category_id
+            }));
+            return _faqsCache;
+        }
+    } catch (e) {
+        // fallback silencioso
+    }
+
+    // Fallback: localStorage
+    if (_faqsCache) return _faqsCache;
     const raw = localStorage.getItem(STORAGE_KEYS.faqs);
     if (!raw) {
         return DEFAULT_FAQS.slice();
     }
     try {
         const value = JSON.parse(raw);
-        return Array.isArray(value) ? value : DEFAULT_FAQS.slice();
+        const faqs = Array.isArray(value) ? value : DEFAULT_FAQS.slice();
+        _faqsCache = faqs;
+        return faqs;
     } catch {
         return DEFAULT_FAQS.slice();
     }
 }
 
-function saveFaqs(faqs) {
+async function saveFaqs(faqs) {
+    // Salva no localStorage como fallback
     localStorage.setItem(STORAGE_KEYS.faqs, JSON.stringify(faqs));
+    _faqsCache = faqs;
+
+    // Tenta salvar via API (requer token de admin)
+    const token = getApiToken();
+    if (!token) return;
+
+    // Busca FAQs atuais da API para comparar
+    try {
+        const current = await apiFetch('/faqs/list');
+        const existingIds = (current.code === 200 && Array.isArray(current.data))
+            ? current.data.map(f => f.id).filter(id => id != null)
+            : [];
+
+        for (const faq of faqs) {
+            if (faq.id && existingIds.includes(faq.id)) {
+                // Atualiza existente
+                await apiFetch(`/faqs/${faq.id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        question: faq.question,
+                        answer: faq.answer,
+                        faqs_category_id: faq.faqs_category_id || 1
+                    })
+                });
+            } else {
+                // Cria novo
+                await apiFetch('/faqs', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        question: faq.question,
+                        answer: faq.answer,
+                        faqs_category_id: faq.faqs_category_id || 1
+                    })
+                });
+            }
+        }
+
+        // Remove da API os que não estão mais na lista
+        const currentIds = faqs.map(f => f.id).filter(id => id != null);
+        for (const existingId of existingIds) {
+            if (!currentIds.includes(existingId)) {
+                await apiFetch(`/faqs/${existingId}`, { method: 'DELETE' });
+            }
+        }
+    } catch (e) {
+        console.warn('Erro ao sincronizar FAQs com a API:', e);
+    }
 }
 
 function createNavLink(link) {
@@ -453,27 +653,41 @@ function setupLoginForm() {
     const loginForm = document.querySelector('#login-form');
     if (!loginForm) return;
 
-    loginForm.addEventListener('submit', function (event) {
+    loginForm.addEventListener('submit', async function (event) {
         event.preventDefault();
 
-        const username = loginForm.querySelector('input[name="username"]').value.trim();
+        const email = loginForm.querySelector('input[name="email"]').value.trim();
         const password = loginForm.querySelector('input[name="password"]').value.trim();
-        
-        const user = findUserByName(username);
 
-        if (!user) {
-            alert('Usuário não encontrado. Faça o cadastro primeiro.');
+        // Login via API
+        const result = await apiFetch('/users/login', {
+            method: 'POST',
+            body: JSON.stringify({ email, password })
+        });
+
+        if (result.code === 200 && result.data) {
+            const user = {
+                name: result.data.name,
+                email: result.data.email,
+                id: result.data.id
+            };
+
+            // Verifica se é admin
+            const adminResult = await apiFetch('/users/login-admin', {
+                method: 'POST',
+                body: JSON.stringify({ email, password })
+            });
+            user.isAdmin = (adminResult.code === 200);
+
+            setApiToken(result.data.token);
+            setCurrentUser(user);
+            localStorage.setItem(STORAGE_KEYS.logged, 'true');
+            window.location.href = resolvePath('app', 'feed.html');
             return;
         }
 
-        if (password !== user.password) {
-            alert('Senha incorreta.');
-            return;
-        }
-
-        setCurrentUser(user);
-        localStorage.setItem(STORAGE_KEYS.logged, 'true');
-        window.location.href = resolvePath('app', 'feed.html');
+        // Se falhou
+        alert('Erro ao fazer login: ' + (result.message || 'Credenciais inválidas.'));
     });
 }
 
@@ -497,7 +711,7 @@ function setupRegisterForm() {
         });
     }
 
-    registerForm.addEventListener('submit', function (event) {
+    registerForm.addEventListener('submit', async function (event) {
         event.preventDefault();
 
         const name = registerForm.querySelector('input[name="name"]').value.trim();
@@ -512,23 +726,41 @@ function setupRegisterForm() {
             return;
         }
 
-        const user = {
-            name,
-            email,
-            password,
-            isAdmin: wantsAdmin,
-            avatar: getSafeAvatar(registerForm.querySelector('input[name="avatar"]').value.trim()),
-            bio: registerForm.querySelector('textarea[name="bio"]').value.trim()
-        };
-
-        if (!registerNewUser(user)) {
-            alert('Usuário com este nome já existe!');
-            return;
+        // Cadastro via API — envia type_id para admin
+        const body = { name, email, password };
+        if (wantsAdmin) {
+            body.type_id = 1;
         }
 
-        setCurrentUser(user);
-        localStorage.setItem(STORAGE_KEYS.logged, 'true');
-        window.location.href = resolvePath('app', 'feed.html');
+        const result = await apiFetch('/users/register', {
+            method: 'POST',
+            body: JSON.stringify(body)
+        });
+
+        if (result.code === 201 && result.data) {
+            // API cadastro com sucesso — faz login automático
+            const loginResult = await apiFetch('/users/login', {
+                method: 'POST',
+                body: JSON.stringify({ email, password })
+            });
+
+            if (loginResult.code === 200 && loginResult.data) {
+                setApiToken(loginResult.data.token);
+                const user = {
+                    name: loginResult.data.name,
+                    email: loginResult.data.email,
+                    id: loginResult.data.id,
+                    isAdmin: wantsAdmin
+                };
+                setCurrentUser(user);
+                localStorage.setItem(STORAGE_KEYS.logged, 'true');
+                window.location.href = resolvePath('app', 'feed.html');
+                return;
+            }
+        }
+
+        // Se falhou comunicação com a API
+        alert('Erro ao cadastrar: ' + (result.message || 'Não foi possível conectar ao servidor.'));
     });
 }
 
@@ -700,13 +932,16 @@ function renderPostCard(post, currentUserEmail) {
     return postCard;
 }
 
-function setupFeedPage() {
+async function setupFeedPage() {
     const feedList = document.querySelector('#feed-list');
     const publicationForm = document.querySelector('#publication-form');
     const currentUserEmail = currentUser()?.email;
 
     if (!feedList || !publicationForm) return;
     if (!currentUserEmail) return;
+
+    await syncPosts();
+    await syncCategories();
 
     function renderFeed() {
         const allPosts = getAllPosts();
@@ -750,7 +985,7 @@ function setupFeedPage() {
     }
 
     if (publicationForm) {
-        publicationForm.addEventListener('submit', function (event) {
+        publicationForm.addEventListener('submit', async function (event) {
             event.preventDefault();
             const title = publicationForm.querySelector('input[name="title"]').value.trim();
             const content = publicationForm.querySelector('textarea[name="content"]').value.trim();
@@ -766,13 +1001,13 @@ function setupFeedPage() {
                 return;
             }
 
-            createPost(title, content, categoryId);
+            await createPost(title, content, categoryId);
             publicationForm.reset();
             renderFeed();
         });
     }
 
-    feedList.addEventListener('click', function (event) {
+    feedList.addEventListener('click', async function (event) {
         const button = event.target.closest('button[data-action]');
         if (!button) return;
 
@@ -781,7 +1016,7 @@ function setupFeedPage() {
         const postId = postCard.dataset.postId;
 
         if (button.dataset.action === 'like') {
-            likePost(postId);
+            await likePost(postId);
             renderFeed();
             return;
         }
@@ -796,7 +1031,7 @@ function setupFeedPage() {
         }
     });
 
-    feedList.addEventListener('submit', function (event) {
+    feedList.addEventListener('submit', async function (event) {
         const form = event.target.closest('.comment-form');
         if (!form) return;
         event.preventDefault();
@@ -806,19 +1041,25 @@ function setupFeedPage() {
         const commentText = input.value.trim();
         if (!postId || !commentText) return;
 
-        addCommentToPost(postId, commentText);
+        await addCommentToPost(postId, commentText);
         renderFeed();
     });
 
     renderFeed();
 }
 
-function setupFaqPage() {
+async function setupFaqPage() {
     const faqContainer = document.querySelector('#faq-list');
     if (!faqContainer) return;
 
+    faqContainer.innerHTML = '<p class="loading">Carregando perguntas frequentes...</p>';
+    const faqs = await getFaqs();
     faqContainer.innerHTML = '';
-    getFaqs().forEach(({ question, answer }) => {
+    if (!faqs.length) {
+        faqContainer.innerHTML = '<p>Nenhuma pergunta frequente disponível no momento.</p>';
+        return;
+    }
+    faqs.forEach(({ question, answer }) => {
         const item = document.createElement('section');
         item.className = 'faq-item';
         item.innerHTML = `<h2>${question}</h2><p>${answer}</p>`;
@@ -846,7 +1087,7 @@ function createProfilePostCard(post) {
     return card;
 }
 
-function setupProfilePage() {
+async function setupProfilePage() {
     const profileInfo = document.querySelector('#profile-info');
     const myPostsSection = document.querySelector('#my-posts');
     const likedPostsSection = document.querySelector('#liked-posts');
@@ -854,6 +1095,8 @@ function setupProfilePage() {
 
     const user = currentUser();
     if (!user) return;
+
+    await syncPosts();
 
     profileInfo.innerHTML = `
         <div class="profile-card">
@@ -978,11 +1221,12 @@ function setupAdminDashboard() {
     });
 }
 
-function setupAdminFaqEditor() {
+async function setupAdminFaqEditor() {
     const faqEditor = document.querySelector('#faq-editor');
     if (!faqEditor) return;
 
-    const faqs = getFaqs();
+    faqEditor.innerHTML = '<p class="loading">Carregando FAQs...</p>';
+    const faqs = await getFaqs();
     faqEditor.innerHTML = '';
 
     faqs.forEach((faq, index) => {
@@ -991,7 +1235,7 @@ function setupAdminFaqEditor() {
         item.innerHTML = `
             <label>
                 Pergunta
-                <input type="text" data-index="${index}" data-field="question" value="${faq.question}">
+                <input type="text" data-index="${index}" data-field="question" value="${faq.question.replace(/"/g, '&quot;')}">
             </label>
             <label>
                 Resposta
@@ -1006,6 +1250,7 @@ function setupAdminFaqEditor() {
     actions.className = 'faq-actions';
     actions.innerHTML = `
         <button type="button" id="save-faqs" class="btn btn-primary">Salvar alterações</button>
+        <span id="faq-saving" class="status-message" style="display:none">Salvando...</span>
         <p id="faq-status" class="status-message"></p>
     `;
     faqEditor.appendChild(actions);
@@ -1027,9 +1272,14 @@ function setupAdminFaqEditor() {
     });
 
     // The add-faq button was removed per request; adding new FAQs is disabled.
-    document.querySelector('#save-faqs').addEventListener('click', function () {
-        saveFaqs(faqs);
+    document.querySelector('#save-faqs').addEventListener('click', async function () {
+        const saving = document.querySelector('#faq-saving');
         const status = document.querySelector('#faq-status');
+        if (saving) saving.style.display = 'inline';
+
+        await saveFaqs(faqs);
+
+        if (saving) saving.style.display = 'none';
         if (status) {
             status.textContent = 'FAQ atualizada com sucesso!';
             status.classList.add('status-success');
@@ -1038,7 +1288,6 @@ function setupAdminFaqEditor() {
                 status.classList.remove('status-success');
             }, 3000);
         }
-        // show a toast notification as well
         showToast('FAQ atualizada com sucesso');
     });
 
@@ -1059,12 +1308,15 @@ function setupAdminFaqEditor() {
     }
 }
 
-function setupGestaoPage() {
+async function setupGestaoPage() {
     const categoryForm = document.querySelector('#category-form');
     const categoryList = document.querySelector('#category-list');
     const postsByCategoryContainer = document.querySelector('#posts-by-category');
 
     if (!categoryForm || !categoryList || !postsByCategoryContainer) return;
+
+    await syncCategories();
+    await syncPosts();
 
     function renderCategories() {
         const categories = getCategories().length > 0 ? getCategories() : getDefaultCategories();
