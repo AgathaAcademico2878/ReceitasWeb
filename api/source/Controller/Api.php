@@ -15,6 +15,21 @@ class Api
         echo "Olá, mundo! Estamos com a API funcionando, graças a Deus!";
     }
 
+    /**
+     * Parse JSON body and merge into $data for PUT/PATCH/DELETE requests
+     */
+    protected function mergeJsonBody(array $data): array
+    {
+        $raw = $_SERVER['RAW_HTTP_BODY'] ?? file_get_contents('php://input');
+        if (!empty($raw)) {
+            $json = json_decode($raw, true);
+            if (is_array($json)) {
+                $data = array_merge($data, $json);
+            }
+        }
+        return $data;
+    }
+
 
     public function authToken(int $typeId): bool
     {

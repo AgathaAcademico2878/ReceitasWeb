@@ -12,22 +12,30 @@ class ComposerStaticInit005683ec4e262a29d04b9ead07429804
     );
 
     public static $prefixLengthsPsr4 = array (
-        'S' => 
+        'S' =>
         array (
             'Source\\' => 7,
         ),
-        'C' => 
+        'F' =>
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
+        'C' =>
         array (
             'CoffeeCode\\Router\\' => 18,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Source\\' => 
+        'Source\\' =>
         array (
             0 => __DIR__ . '/../..' . '/source',
         ),
-        'CoffeeCode\\Router\\' => 
+        'Firebase\\JWT\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'CoffeeCode\\Router\\' =>
         array (
             0 => __DIR__ . '/..' . '/coffeecode/router/src',
         ),

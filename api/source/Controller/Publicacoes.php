@@ -58,7 +58,7 @@ class Publicacoes extends Api
     public function listAll (array $data): void
     {
         $publicacao = new Publicacao();
-      $this->call(200,"success","Lista de Produtos","success")->back($publicacao->selectAll());
+      $this->call(200,"success","Lista de Produtos","success")->back($publicacao->selectAll(['active = 1']));
     }
 
     public function listPaginator (array $data): void
@@ -77,7 +77,7 @@ class Publicacoes extends Api
         }
 
         $publicacao  = new Publicacao();
-        $response = $publicacao->selectPaginator($data["page"], $data["per_page"], [], 'id', 'ASC');
+        $response = $publicacao->selectPaginator($data["page"], $data["per_page"], ['active = 1'], 'id', 'ASC');
         $this->call(200,"success","Lista de Publicações com Paginação","success")->back($response);
     }
 
@@ -89,20 +89,21 @@ class Publicacoes extends Api
                 "bad_request",
                 "Os campos category_id, title e description são obrigatórios",
                 "error"
-            )->back();
+            )->back(null);
             return;
         }
         /*  "id"
             "category_id"
             "title"
             "description"
-            "created_at" 
+            "created_at"
             "comments"
             "likes"
             "active" */
         $publicacao = new Publicacao(
             null,
-            $data["category_id"],
+            (int)$data["user_id"],
+            (int)$data["category_id"],
             $data["title"],
             $data["description"]
         );
@@ -125,13 +126,15 @@ class Publicacoes extends Api
 
     public function update (array $data): void
     {
-        if(!filter_var($data["product_id"], FILTER_VALIDATE_INT)) {
+        $data = $this->mergeJsonBody($data);
+
+        if(!isset($data["publicacao_id"]) || !filter_var($data["publicacao_id"], FILTER_VALIDATE_INT)) {
             $this->call(
                 400,
                 "bad_request",
                 "ID da publicação é obrigatório e deve ser um número inteiro",
                 "error"
-            )->back();
+            )->back(null);
             return;
         }
 
@@ -141,13 +144,14 @@ class Publicacoes extends Api
                 "bad_request",
                 "Os campos category_id, title e description são obrigatórios",
                 "error"
-            )->back();
+            )->back(null);
             return;
         }
 
         $publicacao = new Publicacao(
             null,
-            $data["category_id"],
+            (int)$data["user_id"],
+            (int)$data["category_id"],
             $data["title"],
             $data["description"]
         );
@@ -175,14 +179,12 @@ class Publicacoes extends Api
                 "bad_request",
                 "ID da publicação é obrigatório e deve ser um número inteiro",
                 "error"
-            )->back();
+            )->back(null);
             return;
         }
 
         $publicacao = new Publicacao();
-        // hard delete
-        //if(!$publicacao->deleteById($data["publicacao_id"])){
-        // soft delete
+                // soft delete (FKs impedem hard delete)
         if(!$publicacao->softDeleteById($data["publicacao_id"])){
             $this->call(500, "internal_server_error", $publicacao->getErrorMessage(), "error")->back();
             return;

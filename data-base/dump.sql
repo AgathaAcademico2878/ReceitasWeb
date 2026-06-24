@@ -10,6 +10,9 @@ USE receitasweb;
 
 SET FOREIGN_KEY_CHECKS = 0;
 
+DROP TABLE IF EXISTS receitas_salvas;
+DROP TABLE IF EXISTS comentarios;
+DROP TABLE IF EXISTS curtidas;
 DROP TABLE IF EXISTS faqs;
 DROP TABLE IF EXISTS faqs_categories;
 DROP TABLE IF EXISTS publicacoes;
@@ -143,6 +146,86 @@ NULL,
 NULL,
 NULL,
 1);
+
+-- -----------------------------------------------------
+-- Tabela curtidas
+-- -----------------------------------------------------
+
+CREATE TABLE curtidas (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    publicacao_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_curtidas_users
+        FOREIGN KEY (user_id)
+        REFERENCES users(id),
+
+    CONSTRAINT fk_curtidas_publicacoes
+        FOREIGN KEY (publicacao_id)
+        REFERENCES publicacoes(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO curtidas (id, user_id, publicacao_id, created_at) VALUES
+(1, 2, 1, '2026-06-15 14:00:00'),
+(2, 3, 1, '2026-06-16 10:30:00'),
+(3, 4, 2, '2026-06-17 08:15:00');
+
+-- -----------------------------------------------------
+-- Tabela comentarios
+-- -----------------------------------------------------
+
+CREATE TABLE comentarios (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    publicacao_id INT NOT NULL,
+    comment TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_comentarios_users
+        FOREIGN KEY (user_id)
+        REFERENCES users(id),
+
+    CONSTRAINT fk_comentarios_publicacoes
+        FOREIGN KEY (publicacao_id)
+        REFERENCES publicacoes(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO comentarios (id, user_id, publicacao_id, comment, created_at) VALUES
+(1, 3, 1, 'Adorei essa sopa! Muito nutritiva.', '2026-06-15 14:30:00'),
+(2, 4, 1, 'Vou testar amanhã no almoço.', '2026-06-15 15:00:00'),
+(3, 2, 3, 'O segredo é usar bacon de qualidade.', '2026-06-16 09:00:00');
+
+-- -----------------------------------------------------
+-- Tabela receitas_salvas
+-- -----------------------------------------------------
+
+CREATE TABLE receitas_salvas (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    publicacao_id INT NOT NULL,
+    tipo ENUM('quero_fazer', 'ja_fiz') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_receitas_salvas_users
+        FOREIGN KEY (user_id)
+        REFERENCES users(id),
+
+    CONSTRAINT fk_receitas_salvas_publicacoes
+        FOREIGN KEY (publicacao_id)
+        REFERENCES publicacoes(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO receitas_salvas (id, user_id, publicacao_id, tipo, created_at) VALUES
+(1, 2, 1, 'quero_fazer', '2026-06-15 14:00:00'),
+(2, 3, 2, 'ja_fiz', '2026-06-16 10:30:00'),
+(3, 4, 3, 'quero_fazer', '2026-06-17 08:15:00');
 
 -- -----------------------------------------------------
 -- Tabela faqs_categories
