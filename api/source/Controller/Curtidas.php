@@ -116,6 +116,8 @@ class Curtidas extends Api
 
     public function insert(array $data): void
     {
+        $data = $this->mergeJsonBody($data);
+
         if(!$this->validate($data)) {
             return;
         }

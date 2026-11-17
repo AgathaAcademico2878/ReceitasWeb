@@ -35,8 +35,7 @@ class Api
     {
         $header = getallheaders();
 
-        $token = $header["token"] ?? $header['Authorization'] ?? $header['authorization'] ?? null;
-
+        $token = $header["token"] ?? $header['Authorization'] ?? $header['authorization'] ?? $_SERVER['HTTP_AUTHORIZATION'] ?? null;
         if (!$token) {
             return false;
         }
@@ -49,11 +48,16 @@ class Api
         $jwtToken = $jwt->decode($token);
 
         if (!$jwtToken) {
+            file_put_contents('C:/wamp64/www/ReceitasWeb/auth_debug.log', date('Y-m-d H:i:s') . " JWT decode FALHOU para token: " . substr($token, 0, 50) . "...\n", FILE_APPEND);
             return false;
         }
 
+        file_put_contents('C:/wamp64/www/ReceitasWeb/auth_debug.log', date('Y-m-d H:i:s') . " JWT decode OK email=" . ($jwtToken->data->email ?? 'NULL') . " typeId=$typeId\n", FILE_APPEND);
+
         $user = new User();
-        if (!$user->permissionVerify($jwtToken->data->email, $typeId)) {
+        $permOk = $user->permissionVerify($jwtToken->data->email, $typeId);
+        file_put_contents('C:/wamp64/www/ReceitasWeb/auth_debug.log', date('Y-m-d H:i:s') . " permissionVerify result: " . ($permOk ? 'true' : 'false') . "\n", FILE_APPEND);
+        if (!$permOk) {
             return false;
         }
 

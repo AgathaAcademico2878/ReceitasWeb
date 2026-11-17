@@ -1,93 +1,83 @@
 # 📁 data-base/
 
-## Banco de Dados — Scripts SQL
+## Banco de Dados ReceitasWeb
+
+O arquivo [data-base/dump.sql](data-base/dump.sql) contém o script completo de criação e população do banco de dados do projeto ReceitasWeb.
 
 ---
 
-### 🎯 Para que serve esta pasta?
+### 🎯 Objetivo do dump.sql
 
-A pasta `data-base/` armazena os **scripts SQL** necessários para criar e popular o banco de
-dados do projeto. Isso garante que qualquer pessoa da equipe consiga **recriar o banco**
-facilmente.
+Este script é responsável por:
 
----
-
-### 📂 Conteúdo desta pasta
-
-```
-data-base/
-└── dump.sql    ← Script SQL com a estrutura e dados do banco
-```
+1. Criar o banco de dados `receitasweb`
+2. Remover e recriar as tabelas principais
+3. Inserir dados iniciais para testes e desenvolvimento
+4. Definir as relações entre usuários, publicações, comentários, curtidas e FAQ
 
 ---
 
-### 📖 O que é um dump SQL?
+### 🗂️ Estrutura do banco
 
-Um **dump** (despejo) SQL é um arquivo que contém comandos SQL para:
+O banco é composto pelas seguintes tabelas:
 
-1. **Criar** o banco de dados (`CREATE DATABASE`)
-2. **Criar** as tabelas (`CREATE TABLE`)
-3. **Inserir** dados iniciais (`INSERT INTO`)
-
----
-
-### 💡 Exemplo de conteúdo do dump.sql
-
-```sql
--- ============================================
--- Criação do banco de dados
--- ============================================
-CREATE DATABASE IF NOT EXISTS acme_db
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
-
-USE acme_db;
-
--- ============================================
--- Tabela de usuários
--- ============================================
-CREATE TABLE IF NOT EXISTS users (
-    id         INT AUTO_INCREMENT PRIMARY KEY,
-    name       VARCHAR(100)  NOT NULL,
-    email      VARCHAR(150)  NOT NULL UNIQUE,
-    password   VARCHAR(255)  NOT NULL,
-    created_at TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ============================================
--- Dados iniciais (seed)
--- ============================================
-INSERT INTO users (name, email, password) VALUES
-    ('Administrador', 'admin@acme.com', MD5('123456')),
-    ('Estudante', 'estudante@acme.com', MD5('123456'));
-```
+- `users_types` — tipos de usuário, como `ADMIN` e `STANDARD`
+- `users` — cadastro dos usuários da aplicação
+- `categorias` — categorias das receitas
+- `publicacoes` — receitas publicadas pelos usuários
+- `curtidas` — curtidas atribuídas às publicações
+- `comentarios` — comentários feitos nas receitas
+- `receitas_salvas` — receitas marcadas como "quero fazer" ou "já fiz"
+- `faqs_categories` — categorias das perguntas frequentes
+- `faqs` — perguntas e respostas exibidas na área de FAQ
 
 ---
 
-### 🚀 Como usar?
+### 🧱 Conteúdo inicial incluído
 
-1. Abra o **phpMyAdmin** ou outro cliente MySQL
-2. Copie o conteúdo do arquivo `dump.sql`
-3. Cole na aba **SQL** e clique em **Executar**
-4. Pronto! O banco de dados está criado e populado
+O script já vem com dados de exemplo para facilitar o desenvolvimento, como:
 
-Ou pelo terminal:
+- usuários cadastrados
+- categorias de receitas
+- publicações iniciais
+- curtidas e comentários
+- perguntas frequentes
+
+---
+
+### 🚀 Como importar o banco
+
+#### Via phpMyAdmin
+
+1. Acesse o phpMyAdmin
+2. Crie um banco chamado `receitasweb`
+3. Selecione o banco
+4. Clique em "Importar"
+5. Escolha o arquivo [data-base/dump.sql](data-base/dump.sql) e execute
+
+#### Via terminal
+
 ```bash
 mysql -u root -p < dump.sql
 ```
 
----
+Se estiver dentro da pasta `data-base`, o comando pode ser executado assim:
 
-### 🔐 Boas práticas
-
-- ✅ Sempre mantenha o dump atualizado quando alterar o banco
-- ✅ Use `IF NOT EXISTS` para evitar erros ao executar novamente
-- ✅ Inclua dados de exemplo (seeds) para facilitar os testes
-- ❌ **NUNCA** inclua senhas reais de produção no dump
+```bash
+mysql -u root -p < data-base/dump.sql
+```
 
 ---
 
-> 💡 **Dica:** Sempre que adicionar uma nova tabela ao projeto, atualize o `dump.sql`
-> para que todos da equipe tenham a mesma estrutura.
+### ⚠️ Observações
+
+- O script usa `utf8mb4` para suporte a caracteres especiais.
+- As tabelas são recriadas ao importar o dump, então qualquer alteração anterior será substituída.
+- É recomendável atualizar este arquivo sempre que a estrutura do banco for alterada.
+
+---
+
+### ✅ Resumo
+
+O arquivo [data-base/dump.sql](data-base/dump.sql) é a base de dados completa do projeto, pronta para ser restaurada em qualquer ambiente de desenvolvimento.
 

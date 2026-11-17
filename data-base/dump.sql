@@ -59,19 +59,27 @@ CREATE TABLE users (
 
 INSERT INTO users (id, type_id, name, email, password, photo, active) VALUES
 (1, 1, 'Admin', 'admin@admin.com',
-'$2y$10$e0MI1RB8d.o0rPqy1FoMdelFfFFmqYf6iIH4.v2AMZUeW.B5KygMS',
+'$2y$10$XlOKbMt1YtVY6iCBDxXYA.KtbpFjLttxbQch9tN8.UUk0riB0oQu6',
 NULL, 1),
 
 (2, 2, 'Maria Santos', 'maria@email.com',
-'$2y$10$e0MI1RB8d.o0rPqy1FoMdelFfFFmqYf6iIH4.v2AMZUeW.B5KygMS',
+'$2y$10$XlOKbMt1YtVY6iCBDxXYA.KtbpFjLttxbQch9tN8.UUk0riB0oQu6',
 NULL, 1),
 
 (3, 2, 'João Pedro', 'joao@email.com',
-'$2y$10$e0MI1RB8d.o0rPqy1FoMdelFfFFmqYf6iIH4.v2AMZUeW.B5KygMS',
+'$2y$10$XlOKbMt1YtVY6iCBDxXYA.KtbpFjLttxbQch9tN8.UUk0riB0oQu6',
 NULL, 1),
 
 (4, 2, 'Laura Ribeiro', 'laura@email.com',
-'$2y$10$e0MI1RB8d.o0rPqy1FoMdelFfFFmqYf6iIH4.v2AMZUeW.B5KygMS',
+'$2y$10$XlOKbMt1YtVY6iCBDxXYA.KtbpFjLttxbQch9tN8.UUk0riB0oQu6',
+NULL, 1),
+
+(5, 2, 'Agatha', 'agatha@gmail.com',
+'$2y$10$QMIc9k92m/srZJg1fO0Zyet6SaKA4l1FCp9hndvUcSDH3rrtm/Ojq',
+NULL, 1),
+
+(15, 1, 'Admin Teste', 'admin@teste.com',
+'$2y$10$QMIc9k92m/srZJg1fO0Zyet6SaKA4l1FCp9hndvUcSDH3rrtm/Ojq',
 NULL, 1);
 
 -- -----------------------------------------------------
@@ -103,6 +111,7 @@ CREATE TABLE publicacoes (
     category_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
+    photo VARCHAR(255) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     comments LONGTEXT NULL,
     likes LONGTEXT NULL,
@@ -120,12 +129,13 @@ CREATE TABLE publicacoes (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO publicacoes
-(id, user_id, category_id, title, description, created_at, comments, likes, active)
+(id, user_id, category_id, title, description, photo, created_at, comments, likes, active)
 VALUES
 
 (1, 2, 1,
 'Sopa de Legumes',
 'Uma sopa nutritiva com legumes frescos da estação.',
+NULL,
 '2026-06-15 10:00:00',
 NULL,
 NULL,
@@ -134,6 +144,7 @@ NULL,
 (2, 3, 2,
 'Pudim de Leite',
 'Pudim clássico com calda de caramelo.',
+NULL,
 '2026-06-15 11:00:00',
 NULL,
 NULL,
@@ -142,6 +153,7 @@ NULL,
 (3, 4, 3,
 'Macarrão à Carbonara',
 'Massas com molho cremoso de ovos e bacon.',
+NULL,
 '2026-06-15 12:00:00',
 NULL,
 NULL,

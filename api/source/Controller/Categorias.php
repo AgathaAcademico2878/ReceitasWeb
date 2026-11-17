@@ -45,6 +45,8 @@ class Categorias extends Api
             return;
         }
 
+        $data = $this->mergeJsonBody($data);
+
         if (!isset($data["name"]) || empty($data["name"])) {
             $this->call(400, "bad_request", "Nome da categoria é obrigatório", "error")->back(null);
             return;
@@ -73,6 +75,8 @@ class Categorias extends Api
             $this->call(401, "unauthorized", "Não autorizado. Apenas administradores podem atualizar categorias.", "error")->back(null);
             return;
         }
+
+        $data = $this->mergeJsonBody($data);
 
         if (
             !isset($data["category_id"]) || empty($data["category_id"]) ||

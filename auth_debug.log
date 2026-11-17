@@ -1,0 +1,190 @@
+2026-08-10 23:16:03 | method: PUT | headers: {"Host":"localhost","User-Agent":"curl\/8.19.0","Accept":"*\/*","Content-Type":"application\/json","Authorization":"Bearer test123","token":"test123","Content-Length":"58"} | _SERVER[HTTP_AUTHORIZATION]: Bearer test123 | token_final: test123
+2026-08-10 23:19:25 | method: PUT | all_headers: {"Host":"localhost","Connection":"keep-alive","Content-Length":"202","sec-ch-ua-platform":"\"Windows\"","Authorization":"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3ODY0MTQzMDgsImp0aSI6Im1jSUVOL1M2RWFuNnpRalpGOER6eEE9PSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvUmVjZWl0YXNXZWIiLCJuYmYiOjE3ODY0MTQzMDgsImV4cCI6MTc4NjQxOTcwOCwiZGF0YSI6eyJpZCI6MTUsImVtYWlsIjoiYWRtaW5AdGVzdGUuY29tIn19.ib9tow2Q4a4F0MNShrsQWUotJ0kQRnRpjyN_lGVPot9rPjbeJHmDa4LtACMjBOZSTqE7yU7tbx27nfbWMxmL7Q","User-Agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/151.0.0.0 Safari\/537.36","sec-ch-ua":"\"Not=A?Brand\";v=\"99\", \"Google Chrome\";v=\"151\", \"Chromium\";v=\"151\"","Content-Type":"application\/json","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3ODY0MTQzMDgsImp0aSI6Im1jSUVOL1M2RWFuNnpRalpGOER6eEE9PSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvUmVjZWl0YXNXZWIiLCJuYmYiOjE3ODY0MTQzMDgsImV4cCI6MTc4NjQxOTcwOCwiZGF0YSI6eyJpZCI6MTUsImVtYWlsIjoiYWRtaW5AdGVzdGUuY29tIn19.ib9tow2Q4a4F0MNShrsQWUotJ0kQRnRpjyN_lGVPot9rPjbeJHmDa4LtACMjBOZSTqE7yU7tbx27nfbWMxmL7Q","sec-ch-ua-mobile":"?0","Accept":"*\/*","Origin":"http:\/\/localhost","Sec-Fetch-Site":"same-origin","Sec-Fetch-Mode":"cors","Sec-Fetch-Dest":"empty","Referer":"http:\/\/localhost\/ReceitasWeb\/views\/admin\/faqs.html","Accept-Encoding":"gzip, deflate, br, zstd","Accept-Language":"pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7"} | _SERVER: {"HTTP_AUTHORIZATION":"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3ODY0MTQzMDgsImp0aSI6Im1jSUVOL1M2RWFuNnpRalpGOER6eEE9PSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvUmVjZWl0YXNXZWIiLCJuYmYiOjE3ODY0MTQzMDgsImV4cCI6MTc4NjQxOTcwOCwiZGF0YSI6eyJpZCI6MTUsImVtYWlsIjoiYWRtaW5AdGVzdGUuY29tIn19.ib9tow2Q4a4F0MNShrsQWUotJ0kQRnRpjyN_lGVPot9rPjbeJHmDa4LtACMjBOZSTqE7yU7tbx27nfbWMxmL7Q","HTTP_HOST":"localhost","HTTP_CONNECTION":"keep-alive","HTTP_SEC_CH_UA_PLATFORM":"\"Windows\"","HTTP_USER_AGENT":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/151.0.0.0 Safari\/537.36","HTTP_SEC_CH_UA":"\"Not=A?Brand\";v=\"99\", \"Google Chrome\";v=\"151\", \"Chromium\";v=\"151\"","HTTP_TOKEN":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3ODY0MTQzMDgsImp0aSI6Im1jSUVOL1M2RWFuNnpRalpGOER6eEE9PSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvUmVjZWl0YXNXZWIiLCJuYmYiOjE3ODY0MTQzMDgsImV4cCI6MTc4NjQxOTcwOCwiZGF0YSI6eyJpZCI6MTUsImVtYWlsIjoiYWRtaW5AdGVzdGUuY29tIn19.ib9tow2Q4a4F0MNShrsQWUotJ0kQRnRpjyN_lGVPot9rPjbeJHmDa4LtACMjBOZSTqE7yU7tbx27nfbWMxmL7Q","HTTP_SEC_CH_UA_MOBILE":"?0","HTTP_ACCEPT":"*\/*","HTTP_ORIGIN":"http:\/\/localhost","HTTP_SEC_FETCH_SITE":"same-origin","HTTP_SEC_FETCH_MODE":"cors","HTTP_SEC_FETCH_DEST":"empty","HTTP_REFERER":"http:\/\/localhost\/ReceitasWeb\/views\/admin\/faqs.html","HTTP_ACCEPT_ENCODING":"gzip, deflate, br, zstd","HTTP_ACCEPT_LANGUAGE":"pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7"} | token_final: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3ODY0MTQzMDgsImp0aSI6Im1jSUVOL1M2RWFuNnpRalpGOER6eEE9PSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvUmVjZWl0YXNXZWIiLCJuYmYiOjE3ODY0MTQzMDgsImV4cCI6MTc4NjQxOTcwOCwiZGF0YSI6eyJpZCI6MTUsImVtYWlsIjoiYWRtaW5AdGVzdGUuY29tIn19.ib9tow2Q4a4F0MNShrsQWUotJ0kQRnRpjyN_lGVPot9rPjbeJHmDa4LtACMjBOZSTqE7yU7tbx27nfbWMxmL7Q
+2026-08-10 23:19:30 | method: PUT | all_headers: {"Host":"localhost","Connection":"keep-alive","Content-Length":"195","sec-ch-ua-platform":"\"Windows\"","Authorization":"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3ODY0MTQzMDgsImp0aSI6Im1jSUVOL1M2RWFuNnpRalpGOER6eEE9PSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvUmVjZWl0YXNXZWIiLCJuYmYiOjE3ODY0MTQzMDgsImV4cCI6MTc4NjQxOTcwOCwiZGF0YSI6eyJpZCI6MTUsImVtYWlsIjoiYWRtaW5AdGVzdGUuY29tIn19.ib9tow2Q4a4F0MNShrsQWUotJ0kQRnRpjyN_lGVPot9rPjbeJHmDa4LtACMjBOZSTqE7yU7tbx27nfbWMxmL7Q","User-Agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/151.0.0.0 Safari\/537.36","sec-ch-ua":"\"Not=A?Brand\";v=\"99\", \"Google Chrome\";v=\"151\", \"Chromium\";v=\"151\"","Content-Type":"application\/json","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3ODY0MTQzMDgsImp0aSI6Im1jSUVOL1M2RWFuNnpRalpGOER6eEE9PSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvUmVjZWl0YXNXZWIiLCJuYmYiOjE3ODY0MTQzMDgsImV4cCI6MTc4NjQxOTcwOCwiZGF0YSI6eyJpZCI6MTUsImVtYWlsIjoiYWRtaW5AdGVzdGUuY29tIn19.ib9tow2Q4a4F0MNShrsQWUotJ0kQRnRpjyN_lGVPot9rPjbeJHmDa4LtACMjBOZSTqE7yU7tbx27nfbWMxmL7Q","sec-ch-ua-mobile":"?0","Accept":"*\/*","Origin":"http:\/\/localhost","Sec-Fetch-Site":"same-origin","Sec-Fetch-Mode":"cors","Sec-Fetch-Dest":"empty","Referer":"http:\/\/localhost\/ReceitasWeb\/views\/admin\/faqs.html","Accept-Encoding":"gzip, deflate, br, zstd","Accept-Language":"pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7"} | _SERVER: {"HTTP_AUTHORIZATION":"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3ODY0MTQzMDgsImp0aSI6Im1jSUVOL1M2RWFuNnpRalpGOER6eEE9PSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvUmVjZWl0YXNXZWIiLCJuYmYiOjE3ODY0MTQzMDgsImV4cCI6MTc4NjQxOTcwOCwiZGF0YSI6eyJpZCI6MTUsImVtYWlsIjoiYWRtaW5AdGVzdGUuY29tIn19.ib9tow2Q4a4F0MNShrsQWUotJ0kQRnRpjyN_lGVPot9rPjbeJHmDa4LtACMjBOZSTqE7yU7tbx27nfbWMxmL7Q","HTTP_HOST":"localhost","HTTP_CONNECTION":"keep-alive","HTTP_SEC_CH_UA_PLATFORM":"\"Windows\"","HTTP_USER_AGENT":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/151.0.0.0 Safari\/537.36","HTTP_SEC_CH_UA":"\"Not=A?Brand\";v=\"99\", \"Google Chrome\";v=\"151\", \"Chromium\";v=\"151\"","HTTP_TOKEN":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3ODY0MTQzMDgsImp0aSI6Im1jSUVOL1M2RWFuNnpRalpGOER6eEE9PSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvUmVjZWl0YXNXZWIiLCJuYmYiOjE3ODY0MTQzMDgsImV4cCI6MTc4NjQxOTcwOCwiZGF0YSI6eyJpZCI6MTUsImVtYWlsIjoiYWRtaW5AdGVzdGUuY29tIn19.ib9tow2Q4a4F0MNShrsQWUotJ0kQRnRpjyN_lGVPot9rPjbeJHmDa4LtACMjBOZSTqE7yU7tbx27nfbWMxmL7Q","HTTP_SEC_CH_UA_MOBILE":"?0","HTTP_ACCEPT":"*\/*","HTTP_ORIGIN":"http:\/\/localhost","HTTP_SEC_FETCH_SITE":"same-origin","HTTP_SEC_FETCH_MODE":"cors","HTTP_SEC_FETCH_DEST":"empty","HTTP_REFERER":"http:\/\/localhost\/ReceitasWeb\/views\/admin\/faqs.html","HTTP_ACCEPT_ENCODING":"gzip, deflate, br, zstd","HTTP_ACCEPT_LANGUAGE":"pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7"} | token_final: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3ODY0MTQzMDgsImp0aSI6Im1jSUVOL1M2RWFuNnpRalpGOER6eEE9PSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvUmVjZWl0YXNXZWIiLCJuYmYiOjE3ODY0MTQzMDgsImV4cCI6MTc4NjQxOTcwOCwiZGF0YSI6eyJpZCI6MTUsImVtYWlsIjoiYWRtaW5AdGVzdGUuY29tIn19.ib9tow2Q4a4F0MNShrsQWUotJ0kQRnRpjyN_lGVPot9rPjbeJHmDa4LtACMjBOZSTqE7yU7tbx27nfbWMxmL7Q
+2026-08-10 23:21:03 JWT decode OK email=admin@teste.com typeId=1
+2026-08-10 23:21:03 permissionVerify result: false
+2026-08-10 23:21:22 JWT decode OK email=admin@teste.com typeId=1
+2026-08-10 23:21:22 permissionVerify result: false
+2026-08-10 23:21:24 JWT decode OK email=admin@teste.com typeId=1
+2026-08-10 23:21:24 permissionVerify result: false
+2026-08-10 23:21:27 JWT decode OK email=admin@teste.com typeId=1
+2026-08-10 23:21:27 permissionVerify result: false
+2026-08-10 23:21:29 JWT decode OK email=admin@teste.com typeId=1
+2026-08-10 23:21:29 permissionVerify result: false
+2026-08-10 23:22:50 JWT decode OK email=admin@teste.com typeId=1
+2026-08-10 23:22:50 permissionVerify result: false
+2026-08-10 23:30:22 JWT decode OK email=gmail@gmail.com typeId=1
+2026-08-10 23:30:22 permissionVerify result: true
+2026-08-10 23:33:03 JWT decode OK email=gmail@gmail.com typeId=1
+2026-08-10 23:33:03 permissionVerify result: true
+2026-08-10 23:33:07 JWT decode OK email=gmail@gmail.com typeId=1
+2026-08-10 23:33:07 permissionVerify result: true
+2026-08-10 23:33:19 JWT decode OK email=gmail@gmail.com typeId=1
+2026-08-10 23:33:19 permissionVerify result: true
+2026-08-10 23:33:24 JWT decode OK email=gmail@gmail.com typeId=1
+2026-08-10 23:33:24 permissionVerify result: true
+2026-08-10 23:33:46 JWT decode OK email=gmail@gmail.com typeId=1
+2026-08-10 23:33:46 permissionVerify result: true
+2026-08-10 23:35:44 JWT decode OK email=gmail@gmail.com typeId=1
+2026-08-10 23:35:44 permissionVerify result: true
+2026-08-10 23:41:55 JWT decode OK email=1@gmail.com typeId=1
+2026-08-10 23:41:55 permissionVerify result: true
+2026-08-10 23:42:54 JWT decode OK email=1@gmail.com typeId=1
+2026-08-10 23:42:54 permissionVerify result: true
+2026-08-10 23:42:55 JWT decode OK email=1@gmail.com typeId=1
+2026-08-10 23:42:55 permissionVerify result: true
+2026-08-11 19:45:32 JWT decode FALHOU para token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3O...
+2026-08-11 19:45:36 JWT decode FALHOU para token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3O...
+2026-08-11 19:45:39 JWT decode FALHOU para token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3O...
+2026-08-11 22:04:11 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:04:11 permissionVerify result: true
+2026-08-11 22:04:18 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:04:18 permissionVerify result: true
+2026-08-11 22:04:29 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:04:29 permissionVerify result: true
+2026-08-11 22:05:26 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:05:26 permissionVerify result: true
+2026-08-11 22:05:31 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:05:31 permissionVerify result: true
+2026-08-11 22:05:39 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:05:39 permissionVerify result: true
+2026-08-11 22:05:39 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:05:39 permissionVerify result: true
+2026-08-11 22:05:40 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:05:40 permissionVerify result: true
+2026-08-11 22:05:41 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:05:41 permissionVerify result: true
+2026-08-11 22:05:41 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:05:41 permissionVerify result: true
+2026-08-11 22:05:42 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:05:42 permissionVerify result: true
+2026-08-11 22:06:46 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:06:46 permissionVerify result: true
+2026-08-11 22:08:53 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:08:53 permissionVerify result: true
+2026-08-11 22:10:45 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:10:45 permissionVerify result: true
+2026-08-11 22:15:41 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:15:41 permissionVerify result: true
+2026-08-11 22:15:52 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:15:52 permissionVerify result: true
+2026-08-11 22:16:04 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:16:04 permissionVerify result: true
+2026-08-11 22:16:05 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:16:05 permissionVerify result: true
+2026-08-11 22:16:25 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:16:25 permissionVerify result: true
+2026-08-11 22:16:27 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:16:27 permissionVerify result: true
+2026-08-11 22:16:34 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 22:16:34 permissionVerify result: true
+2026-08-11 23:02:49 JWT decode OK email=1@gmail.com typeId=1
+2026-08-11 23:02:49 permissionVerify result: true
+2026-08-12 07:50:11 JWT decode FALHOU para token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3O...
+2026-08-12 07:51:29 JWT decode OK email=admin@gmail.com typeId=1
+2026-08-12 07:51:29 permissionVerify result: true
+2026-08-12 07:51:44 JWT decode OK email=admin@gmail.com typeId=1
+2026-08-12 07:51:45 permissionVerify result: true
+2026-08-12 07:52:39 JWT decode OK email=admin@gmail.com typeId=1
+2026-08-12 07:52:39 permissionVerify result: true
+2026-08-12 07:53:32 JWT decode FALHOU para token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9......
+2026-08-12 07:54:08 JWT decode OK email=admin@gmail.com typeId=1
+2026-08-12 07:54:08 permissionVerify result: true
+2026-08-12 07:56:56 JWT decode OK email=admin@gmail.com typeId=1
+2026-08-12 07:56:56 permissionVerify result: true
+2026-08-12 07:57:08 JWT decode OK email=admin@gmail.com typeId=1
+2026-08-12 07:57:08 permissionVerify result: true
+2026-08-12 10:11:00 JWT decode OK email=1@gmail.com typeId=1
+2026-08-12 10:11:00 permissionVerify result: true
+2026-08-12 10:15:09 JWT decode OK email=1@gmail.com typeId=1
+2026-08-12 10:15:09 permissionVerify result: false
+2026-08-12 10:19:08 JWT decode OK email=louca@gmail.com typeId=1
+2026-08-12 10:19:08 permissionVerify result: true
+2026-08-12 10:24:23 JWT decode OK email=louca@gmail.com typeId=1
+2026-08-12 10:24:23 permissionVerify result: true
+2026-08-19 08:36:13 JWT decode FALHOU para token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3O...
+2026-08-19 08:36:13 JWT decode FALHOU para token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3O...
+2026-08-19 08:36:15 JWT decode FALHOU para token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3O...
+2026-09-30 08:31:03 JWT decode FALHOU para token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3O...
+2026-11-10 19:07:05 JWT decode OK email=teste@gmail.com typeId=1
+2026-11-10 19:07:05 permissionVerify result: false
+2026-11-10 19:17:35 JWT decode OK email=admin@teste.com typeId=1
+2026-11-10 19:17:35 permissionVerify result: true
+2026-11-10 19:17:43 JWT decode OK email=admin@teste.com typeId=1
+2026-11-10 19:17:43 permissionVerify result: true
+2026-11-10 19:55:07 JWT decode OK email=agatha@gmail.com typeId=1
+2026-11-10 19:55:07 permissionVerify result: false
+2026-11-10 19:55:14 JWT decode OK email=agatha@gmail.com typeId=1
+2026-11-10 19:55:14 permissionVerify result: false
+2026-11-10 20:07:15 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-10 20:07:15 permissionVerify result: true
+2026-11-10 20:14:02 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-10 20:14:02 permissionVerify result: true
+2026-11-10 20:14:13 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-10 20:14:13 permissionVerify result: true
+2026-11-10 20:14:30 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-10 20:14:30 permissionVerify result: true
+2026-11-10 20:14:59 JWT decode OK email=admin@teste.com typeId=2
+2026-11-10 20:14:59 permissionVerify result: false
+2026-11-10 20:15:09 JWT decode OK email=admin@teste.com typeId=2
+2026-11-10 20:15:09 permissionVerify result: false
+2026-11-10 20:31:58 JWT decode OK email=admin@teste.com typeId=2
+2026-11-10 20:31:58 permissionVerify result: false
+2026-11-10 21:17:51 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-10 21:17:51 permissionVerify result: true
+2026-11-10 21:19:34 JWT decode OK email=admin@teste.com typeId=2
+2026-11-10 21:19:34 permissionVerify result: false
+2026-11-10 21:19:38 JWT decode OK email=admin@teste.com typeId=2
+2026-11-10 21:19:38 permissionVerify result: false
+2026-11-10 21:37:44 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-10 21:37:44 permissionVerify result: true
+2026-11-10 21:46:51 JWT decode OK email=admin@admin.com typeId=2
+2026-11-10 21:46:51 permissionVerify result: false
+2026-11-10 21:47:08 JWT decode OK email=admin@admin.com typeId=2
+2026-11-10 21:47:08 permissionVerify result: false
+2026-11-10 21:48:43 JWT decode OK email=maria@email.com typeId=2
+2026-11-10 21:48:43 permissionVerify result: true
+2026-11-10 21:50:18 JWT decode OK email=admin@teste.com typeId=1
+2026-11-10 21:50:18 permissionVerify result: true
+2026-11-10 21:51:01 JWT decode OK email=admin@teste.com typeId=1
+2026-11-10 21:51:01 permissionVerify result: true
+2026-11-10 21:51:31 JWT decode OK email=agatha@gmail.com typeId=1
+2026-11-10 21:51:31 permissionVerify result: false
+2026-11-10 21:51:31 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-10 21:51:31 permissionVerify result: true
+2026-11-10 22:03:32 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-10 22:03:32 permissionVerify result: true
+2026-11-10 22:04:59 JWT decode OK email=admin@teste.com typeId=2
+2026-11-10 22:04:59 permissionVerify result: false
+2026-11-10 22:10:22 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-10 22:10:22 permissionVerify result: true
+2026-11-10 22:11:24 JWT decode OK email=admin@teste.com typeId=2
+2026-11-10 22:11:24 permissionVerify result: false
+2026-11-10 22:11:42 JWT decode OK email=admin@teste.com typeId=2
+2026-11-10 22:11:42 permissionVerify result: false
+2026-11-10 22:11:56 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-10 22:11:56 permissionVerify result: true
+2026-11-10 22:12:02 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-10 22:12:02 permissionVerify result: true
+2026-11-10 22:22:17 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-10 22:22:17 permissionVerify result: true
+2026-11-16 11:41:04 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-16 11:41:04 permissionVerify result: true
+2026-11-16 11:46:11 JWT decode OK email=admin@teste.com typeId=2
+2026-11-16 11:46:11 permissionVerify result: false
+2026-11-16 11:54:39 JWT decode OK email=admin@teste.com typeId=1
+2026-11-16 11:54:39 permissionVerify result: true
+2026-11-16 11:55:55 JWT decode OK email=admin@teste.com typeId=2
+2026-11-16 11:55:55 permissionVerify result: false
+2026-11-16 11:56:11 JWT decode OK email=admin@teste.com typeId=2
+2026-11-16 11:56:11 permissionVerify result: false
+2026-11-16 12:01:35 JWT decode OK email=admin@teste.com typeId=2
+2026-11-16 12:01:35 permissionVerify result: false
+2026-11-16 12:26:21 JWT decode OK email=admin@teste.com typeId=1
+2026-11-16 12:26:21 permissionVerify result: true
+2026-11-16 18:23:13 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-16 18:23:13 permissionVerify result: true
+2026-11-16 18:36:00 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-16 18:36:00 permissionVerify result: true
+2026-11-16 18:43:47 JWT decode OK email=agatha@gmail.com typeId=2
+2026-11-16 18:43:47 permissionVerify result: true

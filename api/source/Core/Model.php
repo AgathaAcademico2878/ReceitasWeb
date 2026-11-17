@@ -276,7 +276,7 @@ abstract class Model
 
     protected function camelToSnake(string $field): string
     {
-        return strtolower((string)preg_replace('/[A-Z]/', '_$0', $field));
+        return strtolower((string)preg_replace('/(?<=[a-z])(?=[A-Z])/', '_$0', $field));
     }
 
     protected function snakeToCamel(string $field): string

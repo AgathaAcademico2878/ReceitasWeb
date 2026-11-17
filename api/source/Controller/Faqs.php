@@ -47,6 +47,8 @@ class Faqs extends Api
             return;
         }
 
+        $data = $this->mergeJsonBody($data);
+
         if (!isset($data["name"]) || empty($data["name"])) {
             $this->call(400, "bad_request", "Nome da categoria é obrigatório", "error")->back(null);
             return;
@@ -75,6 +77,8 @@ class Faqs extends Api
             $this->call(401, "unauthorized", "Não autorizado. Apenas administradores.", "error")->back(null);
             return;
         }
+
+        $data = $this->mergeJsonBody($data);
 
         if (
             !isset($data["category_id"]) || empty($data["category_id"]) ||
@@ -205,6 +209,8 @@ class Faqs extends Api
             return;
         }
 
+        $data = $this->mergeJsonBody($data);
+
         $missing = [];
         if (!isset($data["faqs_category_id"]) || empty($data["faqs_category_id"])) {
             $missing[] = "faqs_category_id";
@@ -248,6 +254,8 @@ class Faqs extends Api
             $this->call(401, "unauthorized", "Não autorizado. Apenas administradores.", "error")->back(null);
             return;
         }
+
+        $data = $this->mergeJsonBody($data);
 
         if (
             !isset($data["faq_id"]) || empty($data["faq_id"]) ||

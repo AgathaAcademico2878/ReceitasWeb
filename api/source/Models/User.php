@@ -224,6 +224,74 @@ class User extends Model
         return $this->photo;
     }
 
+    /**
+     * Update user's profile photo in database.
+     * Allows update for active users with type_id = 1 (admins) or type_id = 2 (regular users).
+     *
+     * @param int    $id    User ID
+     * @param string $photo Relative path to photo (e.g., "uploads/users/abc123.jpg")
+     * @return bool True on success
+     */
+    public function updatePhoto(int $id, string $photo): bool
+    {
+        $query = "UPDATE {$this->table} SET photo = :photo WHERE id = :id AND type_id IN (1, 2) AND active = 1";
+
+        try {
+            $stmt = Connect::getInstance()->prepare($query);
+            $stmt->bindValue(":photo", $photo);
+            $stmt->bindValue(":id", $id, \PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->rowCount() > 0;
+        } catch (\PDOException $e) {
+            error_log("Erro ao atualizar foto do usuário: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Get user's photo URL (full URL or null if no photo).
+     *
+     * @param int|null $id User ID (optional, uses current object's ID if not provided)
+     * @param int|null $typeId Optional type_id filter (defaults to current user's typeId if loaded)
+     * @return string|null Full URL to photo or null
+     */
+    public function getPhotoUrl(?int $id = null, ?int $typeId = null): ?string
+    {
+        $id = $id ?? $this->id;
+        if (!$id) {
+            return null;
+        }
+        // Use provided typeId or fall back to current object's typeId
+        $typeId = $typeId ?? $this->typeId ?? 2;
+
+        $query = "SELECT photo FROM {$this->table} WHERE id = :id AND type_id = :type_id AND active = 1 LIMIT 1";
+
+        try {
+            $stmt = Connect::getInstance()->prepare($query);
+            $stmt->bindValue(":id", $id, \PDO::PARAM_INT);
+            $stmt->bindValue(":type_id", $typeId, \PDO::PARAM_INT);
+            $stmt->execute();
+
+            $result = $stmt->fetch();
+
+            if ($result && !empty($result->photo)) {
+                $photoPath = $result->photo;
+                // If already a full URL, return as-is
+                if (filter_var($photoPath, FILTER_VALIDATE_URL)) {
+                    return $photoPath;
+                }
+                // Otherwise build full URL
+                return url(ltrim($photoPath, "/"));
+            }
+
+            return null;
+        } catch (\PDOException $e) {
+            error_log("Erro ao buscar foto do usuário: " . $e->getMessage());
+            return null;
+        }
+    }
+
     public function setPhoto(?string $photo): void
     {
         $this->photo = $photo;
